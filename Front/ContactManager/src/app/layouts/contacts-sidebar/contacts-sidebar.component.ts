@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Contact } from 'src/app/models/Contact.model';
 import { ContactService } from 'src/app/services/contact.service';
 
@@ -8,29 +9,29 @@ import { ContactService } from 'src/app/services/contact.service';
   styleUrls: ['./contacts-sidebar.component.css']
 })
 export class ContactsSidebarComponent implements OnInit {
-  newContactList: Contact[] = [];
   searchTerm: string = "";
+  contact?: Contact;
+  contacts$: Observable<Contact[]> | undefined;
 
-  constructor(private contactService: ContactService){}
+  constructor(private contactService: ContactService) {}
 
   ngOnInit(): void {
-      this.loadContacts();
+    this.contacts$ = this.contactService.contacts$;
   }
 
-  loadContacts(): void{
-    this.contactService.getContacts().subscribe({
-      next: (contacts) => {
-          this.newContactList = contacts.map(contacts => ({
-            ...contacts
-          }));
-        },
-        error: (err) => console.error(err)
-      })
-  }
-
-  get filteredContacts(): Contact[] {
-    return this.newContactList.filter(contact =>
+  filterContacts(contacts: Contact[]): Contact[] {
+    return contacts.filter(contact =>
       contact.contactName.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+  }
+
+
+  deleteContact(contactId: number): void{
+    if (contactId !== undefined) {
+      this.contactService.deleteContact(contactId).subscribe({
+        next: () => console.log("Contact deleted!"),
+        error: (err) => console.error("Error while deleting:", err)
+      });
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Contact } from '../models/Contact.model';
 
 @Injectable({
@@ -8,22 +9,33 @@ import { Contact } from '../models/Contact.model';
 })
 export class ContactService {
   private apiUrl = "http://localhost:8080/api/v1";
-  constructor(private http: HttpClient) {}
+  private contactsSubject = new BehaviorSubject<Contact[]>([]);
+  contacts$ = this.contactsSubject.asObservable();
 
-  addContact(contact: Contact): Observable<Contact>{
-    return this.http.post<Contact>(`${this.apiUrl}/contacts`, contact);
+  constructor(private http: HttpClient) {
+    this.loadContacts();
   }
 
-  getContacts(): Observable<Contact[]>{
-    return this.http.get<Contact[]>(`${this.apiUrl}/contacts`);
+  loadContacts(): void {
+    this.http.get<Contact[]>(`${this.apiUrl}/contacts`).subscribe({
+      next: (contacts) => this.contactsSubject.next(contacts),
+      error: (err) => console.error(err)
+    });
   }
 
-  getContact(id: number): Observable<Contact>{
+  addContact(contact: Contact): Observable<Contact> {
+    return this.http.post<Contact>(`${this.apiUrl}/contacts`, contact).pipe(
+      tap(() => this.loadContacts())
+    );
+  }
+
+  getContact(id: number): Observable<Contact> {
     return this.http.get<Contact>(`${this.apiUrl}/contacts/${id}`);
   }
 
-  deleteContact(id: number){
-    return this.http.delete(`${this.apiUrl}/contacts/${id}`);
+  deleteContact(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/contacts/${id}`).pipe(
+      tap(() => this.loadContacts())
+    );
   }
-
 }
