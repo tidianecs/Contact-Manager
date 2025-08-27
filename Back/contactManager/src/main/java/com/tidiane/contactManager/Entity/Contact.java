@@ -1,11 +1,12 @@
 package com.tidiane.contactManager.Entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Contact {
-    @Id @GeneratedValue private Long contactId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long contactId;
     private String contactName;
     private String contactEmail;
     private String contactPhone;

@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { ContactFormComponent } from './layouts/contact-form/contact-form.component';
 import { ContactsSidebarComponent } from './layouts/contacts-sidebar/contacts-sidebar.component';
+import { ContactInfosComponent } from './layouts/contact-infos/contact-infos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     ContactFormComponent,
-    ContactsSidebarComponent
+    ContactsSidebarComponent,
+    ContactInfosComponent
   ],
   imports: [
     BrowserModule,
