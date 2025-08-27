@@ -29,7 +29,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of("http://localhost:4200"));
-        config.setAllowedMethods(List.of("GET","POST","DELETE"));
+        config.setAllowedMethods(List.of("GET","POST", "PUT","DELETE"));
         config.setAllowedHeaders(List.of("*"));
         //config.setAllowCredentials(true); A ajouter si je commence à utiliser JWT
 

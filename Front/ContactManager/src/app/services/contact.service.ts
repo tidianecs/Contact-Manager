@@ -33,6 +33,12 @@ export class ContactService {
     return this.http.get<Contact>(`${this.apiUrl}/contacts/${id}`);
   }
 
+  updateContact(id: number, contactToUpd: Contact):Observable<Contact> {
+    return this.http.put<Contact>(`${this.apiUrl}/contacts/${id}`, contactToUpd).pipe(
+      tap(() => this.loadContacts())
+    );
+  }
+
   deleteContact(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/contacts/${id}`).pipe(
       tap(() => this.loadContacts())

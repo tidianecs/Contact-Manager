@@ -8,6 +8,7 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { ContactFormComponent } from './layouts/contact-form/contact-form.component';
 import { ContactsSidebarComponent } from './layouts/contacts-sidebar/contacts-sidebar.component';
 import { ContactInfosComponent } from './layouts/contact-infos/contact-infos.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ContactInfosComponent } from './layouts/contact-infos/contact-infos.com
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,35 +1,84 @@
+<!-- contact-infos.component.html -->
 <div class="w-screen max-w-lg mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl hover:shadow-lg hover:shadow-gray-500 ease-in-out duration-500">
   <h2 class="text-xl font-semibold mb-4 text-gray-700 text-center">Contact Infos</h2>
-    <div *ngIf="contact; else loading">
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-600">Name</label>
-            <p class="text-lg text-slate-800">{{ contact.contactName }}</p>
+
+  <div *ngIf="contact; else loading">
+
+    <!-- MODE LECTURE -->
+    <ng-container *ngIf="!isEditing; else editMode">
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-600">Name</label>
+        <p class="text-lg text-slate-800">{{ contact.contactName }}</p>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-600">Email</label>
+        <p class="text-lg text-slate-800">{{ contact.contactEmail }}</p>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-600">Phone</label>
+        <p class="text-lg text-slate-800">{{ contact.contactPhone }}</p>
+      </div>
+
+      <button (click)="toggleEdit()"
+              class="w-full cursor-pointer flex items-center justify-center text-lg gap-x-1 bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-600 transition">
+        Edit
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07
+                   a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685
+                   a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+        </svg>
+      </button>
+    </ng-container>
+
+    <!-- MODE ÉDITION -->
+    <ng-template #editMode>
+      <form [formGroup]="editForm" (ngSubmit)="save()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Name</label>
+          <input formControlName="contactName" type="text"
+                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
+          <p *ngIf="editForm.get('contactName')?.invalid && editForm.get('contactName')?.touched"
+             class="text-sm text-red-600 mt-1">Le nom est requis (min 2 caractères).</p>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-600">Email</label>
-            <p class="text-lg text-slate-800">{{ contact.contactEmail }}</p>
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Email</label>
+          <input formControlName="contactEmail" type="email"
+                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
+          <p *ngIf="editForm.get('contactEmail')?.invalid && editForm.get('contactEmail')?.touched"
+             class="text-sm text-red-600 mt-1">Email invalide.</p>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-600">Phone</label>
-            <p class="text-lg text-slate-800">{{ contact.contactPhone }}</p>
+        <div>
+          <label class="block text-sm font-medium text-gray-600">Phone</label>
+          <input formControlName="contactPhone" type="tel"
+                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
         </div>
 
-        <div class="mb-4 cursor-pointer flex items-center justify-center text-lg gap-x-1 w-full bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-600 transition">
-            Edit
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-            </svg>
+        <div class="flex gap-3">
+          <button type="submit"
+                  [disabled]="editForm.invalid"
+                  class="flex-1 bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-600 transition disabled:opacity-50">
+            Save
+          </button>
+          <button type="button" (click)="cancel()"
+                  class="flex-1 bg-gray-200 text-slate-800 p-2 rounded-lg shadow hover:bg-gray-300 transition">
+            Cancel
+          </button>
         </div>
+      </form>
+    </ng-template>
+
   </div>
 
   <ng-template #loading>
     <p class="text-center text-gray-500">Chargement du contact...</p>
   </ng-template>
 
-    <div class="text-center">
-      <p class="text-sm text-slate-600 transition">© Copyright 2025</p>
-    </div>
+  <div class="text-center mt-4">
+    <p class="text-sm text-slate-600 transition">© Copyright 2025</p>
+  </div>
 </div>
-
