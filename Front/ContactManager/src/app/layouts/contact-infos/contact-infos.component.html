@@ -1,45 +1,43 @@
-<!-- contact-infos.component.html -->
-<div class="w-screen max-w-lg mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl hover:shadow-lg hover:shadow-gray-500 ease-in-out duration-500">
-  <h2 class="text-xl font-semibold mb-4 text-gray-700 text-center">Contact Infos</h2>
+<div class="w-full max-w-md sm:max-w-lg md:max-w-2xl mx-auto mt-6 md:mt-10 p-4 md:p-6 bg-white shadow-lg rounded-xl hover:shadow-lg hover:shadow-gray-500 ease-in-out duration-500">
+  <h2 class="text-lg md:text-xl font-semibold mb-4 text-gray-700 text-center">Contact Infos</h2>
 
-  <div *ngIf="contact; else loading">
-
-    <!-- MODE LECTURE -->
+  <div *ngIf="contact; else loading" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
     <ng-container *ngIf="!isEditing; else editMode">
-      <div class="mb-4">
+      <div class="md:col-span-1">
         <label class="block text-sm font-medium text-gray-600">Name</label>
-        <p class="text-lg text-slate-800">{{ contact.contactName }}</p>
+        <p class="text-base md:text-lg text-slate-800">{{ contact.contactName }}</p>
       </div>
 
-      <div class="mb-4">
+      <div class="md:col-span-1">
         <label class="block text-sm font-medium text-gray-600">Email</label>
-        <p class="text-lg text-slate-800">{{ contact.contactEmail }}</p>
+        <p class="text-base md:text-lg text-slate-800 break-all">{{ contact.contactEmail }}</p>
       </div>
 
-      <div class="mb-4">
+      <div class="md:col-span-1">
         <label class="block text-sm font-medium text-gray-600">Phone</label>
-        <p class="text-lg text-slate-800">{{ contact.contactPhone }}</p>
+        <p class="text-base md:text-lg text-slate-800">{{ contact.contactPhone }}</p>
       </div>
 
-      <button (click)="toggleEdit()"
-              class="w-full cursor-pointer flex items-center justify-center text-lg gap-x-1 bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-600 transition">
-        Edit
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07
-                   a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685
-                   a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
-        </svg>
-      </button>
+      <div class="md:col-span-2">
+        <button (click)="toggleEdit()"
+                class="w-full md:w-40 mx-auto block cursor-pointer flex items-center justify-center text-base md:text-lg gap-x-1 bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-700 transition">
+          Edit
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07
+                     a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685
+                     a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
+          </svg>
+        </button>
+      </div>
     </ng-container>
 
-    <!-- MODE ÉDITION -->
     <ng-template #editMode>
-      <form [formGroup]="editForm" (ngSubmit)="save()" class="space-y-4">
-        <div>
+      <form [formGroup]="editForm" (ngSubmit)="save()" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 md:col-span-2">
+        <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-600">Name</label>
           <input formControlName="contactName" type="text"
-                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
+                 class="mt-1 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
           <p *ngIf="editForm.get('contactName')?.invalid && editForm.get('contactName')?.touched"
              class="text-sm text-red-600 mt-1">Le nom est requis (min 2 caractères).</p>
         </div>
@@ -47,7 +45,7 @@
         <div>
           <label class="block text-sm font-medium text-gray-600">Email</label>
           <input formControlName="contactEmail" type="email"
-                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
+                 class="mt-1 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
           <p *ngIf="editForm.get('contactEmail')?.invalid && editForm.get('contactEmail')?.touched"
              class="text-sm text-red-600 mt-1">Email invalide.</p>
         </div>
@@ -55,23 +53,22 @@
         <div>
           <label class="block text-sm font-medium text-gray-600">Phone</label>
           <input formControlName="contactPhone" type="tel"
-                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
+                 class="mt-1 block w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 p-2" />
         </div>
 
-        <div class="flex gap-3">
+        <div class="md:col-span-2 flex flex-col md:flex-row gap-3">
           <button type="submit"
                   [disabled]="editForm.invalid"
-                  class="flex-1 bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-600 transition disabled:opacity-50">
+                  class="w-full md:flex-1 bg-slate-900 text-white p-2 rounded-lg shadow hover:bg-slate-700 transition disabled:opacity-50">
             Save
           </button>
           <button type="button" (click)="cancel()"
-                  class="flex-1 bg-gray-200 text-slate-800 p-2 rounded-lg shadow hover:bg-gray-300 transition">
+                  class="w-full md:flex-1 bg-gray-200 text-slate-800 p-2 rounded-lg shadow hover:bg-gray-300 transition">
             Cancel
           </button>
         </div>
       </form>
     </ng-template>
-
   </div>
 
   <ng-template #loading>
@@ -79,6 +76,6 @@
   </ng-template>
 
   <div class="text-center mt-4">
-    <p class="text-sm text-slate-600 transition">© Copyright 2025</p>
+    <p class="text-sm text-slate-600">© Copyright 2025</p>
   </div>
 </div>

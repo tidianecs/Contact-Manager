@@ -1,5 +1,12 @@
-<app-navbar></app-navbar>
-<div class="flex gap-x-28">
-  <app-contacts-sidebar></app-contacts-sidebar>
-  <router-outlet></router-outlet>
+<app-navbar (toggleSidebar)="sidebarOpen = !sidebarOpen"></app-navbar>
+
+<div class="md:flex md:min-h-[calc(100vh-4rem)]">
+  <app-contacts-sidebar
+    [open]="sidebarOpen"
+    (close)="sidebarOpen = false">
+  </app-contacts-sidebar>
+
+  <main class="flex-1 p-4 md:p-6">
+    <router-outlet></router-outlet>
+  </main>
 </div>
